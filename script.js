@@ -1,38 +1,43 @@
 // ===============================
-// Mobile Menu Toggle
+// PORTFOLIO JAVASCRIPT
 // ===============================
 
+// Mobile Menu
 const menuBtn = document.getElementById("menu-btn");
 const navLinks = document.querySelector(".nav-links");
+const menuIcon = menuBtn.querySelector("i");
 
 menuBtn.addEventListener("click", () => {
     navLinks.classList.toggle("active");
 
-    // Change icon
-    const icon = menuBtn.querySelector("i");
-
     if (navLinks.classList.contains("active")) {
-        icon.classList.remove("fa-bars");
-        icon.classList.add("fa-times");
+        menuIcon.classList.replace("fa-bars", "fa-times");
     } else {
-        icon.classList.remove("fa-times");
-        icon.classList.add("fa-bars");
+        menuIcon.classList.replace("fa-times", "fa-bars");
     }
+});
+
+// Close Menu after Clicking Link
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        menuIcon.classList.replace("fa-times", "fa-bars");
+    });
 });
 
 // ===============================
 // Typing Animation
 // ===============================
 
-const text = [
-    "Computer Science Student",
-    "C Programmer",
-    "Java Learner",
-    "Python Enthusiast",
-    "Future Software Developer"
+const words = [
+    "Computer Engineering Student",
+    "Frontend Developer",
+    "Java Programmer",
+    "Python Developer",
+    "Future Software Engineer"
 ];
 
-let textIndex = 0;
+let wordIndex = 0;
 let charIndex = 0;
 let deleting = false;
 
@@ -40,35 +45,40 @@ const typing = document.getElementById("typing");
 
 function typeEffect() {
 
-    const current = text[textIndex];
+    const currentWord = words[wordIndex];
 
     if (!deleting) {
 
-        typing.textContent = current.substring(0, charIndex++);
+        typing.innerHTML =
+            currentWord.substring(0, charIndex) + "<span>|</span>";
 
-        if (charIndex > current.length) {
+        charIndex++;
+
+        if (charIndex > currentWord.length) {
             deleting = true;
-
             setTimeout(typeEffect, 1500);
             return;
         }
 
     } else {
 
-        typing.textContent = current.substring(0, charIndex--);
+        typing.innerHTML =
+            currentWord.substring(0, charIndex) + "<span>|</span>";
+
+        charIndex--;
 
         if (charIndex < 0) {
             deleting = false;
-            textIndex = (textIndex + 1) % text.length;
+            wordIndex = (wordIndex + 1) % words.length;
         }
 
     }
 
-    setTimeout(typeEffect, deleting ? 50 : 120);
+    setTimeout(typeEffect, deleting ? 50 : 100);
+
 }
 
 typeEffect();
-
 
 // ===============================
 // Smooth Scroll
@@ -84,15 +94,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             behavior: "smooth"
         });
 
-        navLinks.classList.remove("active");
-
-        menuBtn.innerHTML = `<i class="fas fa-bars"></i>`;
     });
 
 });
 
 // ===============================
-// Active Navigation Link
+// Active Navigation
 // ===============================
 
 const sections = document.querySelectorAll("section");
@@ -104,9 +111,9 @@ window.addEventListener("scroll", () => {
 
     sections.forEach(section => {
 
-        const sectionTop = section.offsetTop - 120;
+        const sectionTop = section.offsetTop - 150;
 
-        if (scrollY >= sectionTop) {
+        if (window.scrollY >= sectionTop) {
             current = section.getAttribute("id");
         }
 
@@ -125,7 +132,7 @@ window.addEventListener("scroll", () => {
 });
 
 // ===============================
-// Scroll Reveal Animation
+// Reveal Animation
 // ===============================
 
 const revealElements = document.querySelectorAll(
@@ -137,9 +144,9 @@ function reveal() {
     revealElements.forEach(el => {
 
         const windowHeight = window.innerHeight;
-        const top = el.getBoundingClientRect().top;
+        const elementTop = el.getBoundingClientRect().top;
 
-        if (top < windowHeight - 100) {
+        if (elementTop < windowHeight - 80) {
 
             el.style.opacity = "1";
             el.style.transform = "translateY(0)";
@@ -151,16 +158,39 @@ function reveal() {
 }
 
 revealElements.forEach(el => {
+
     el.style.opacity = "0";
     el.style.transform = "translateY(40px)";
-    el.style.transition = "all 0.8s ease";
+    el.style.transition = "all .8s ease";
+
 });
 
 window.addEventListener("scroll", reveal);
 window.addEventListener("load", reveal);
 
 // ===============================
-// Header Shadow on Scroll
+// Hero Image Animation
+// ===============================
+
+const profile = document.querySelector(".circle");
+
+window.addEventListener("load", () => {
+
+    profile.style.opacity = "0";
+    profile.style.transform = "translateY(40px)";
+
+    setTimeout(() => {
+
+        profile.style.transition = "all 1s ease";
+        profile.style.opacity = "1";
+        profile.style.transform = "translateY(0)";
+
+    }, 300);
+
+});
+
+// ===============================
+// Header Shadow
 // ===============================
 
 const header = document.querySelector("header");
@@ -168,53 +198,49 @@ const header = document.querySelector("header");
 window.addEventListener("scroll", () => {
 
     if (window.scrollY > 50) {
-        header.style.boxShadow = "0 8px 20px rgba(0,0,0,0.15)";
+
+        header.style.boxShadow = "0 8px 20px rgba(0,0,0,.12)";
+
     } else {
-        header.style.boxShadow = "0 5px 15px rgba(0,0,0,0.08)";
+
+        header.style.boxShadow = "0 5px 15px rgba(0,0,0,.08)";
+
     }
 
 });
 
 // ===============================
-// Back to Top Button
+// Back To Top Button
 // ===============================
 
 const topBtn = document.createElement("button");
-topBtn.innerHTML = "⬆";
+
+topBtn.innerHTML = "↑";
 topBtn.className = "top-btn";
 
 document.body.appendChild(topBtn);
 
-topBtn.style.position = "fixed";
-topBtn.style.bottom = "20px";
-topBtn.style.right = "20px";
-topBtn.style.width = "50px";
-topBtn.style.height = "50px";
-topBtn.style.border = "none";
-topBtn.style.borderRadius = "50%";
-topBtn.style.background = "#4f46e5";
-topBtn.style.color = "#fff";
-topBtn.style.fontSize = "22px";
-topBtn.style.cursor = "pointer";
-topBtn.style.display = "none";
-topBtn.style.boxShadow = "0 10px 20px rgba(0,0,0,.2)";
-topBtn.style.transition = ".3s";
+topBtn.addEventListener("click", () => {
+
+    window.scrollTo({
+
+        top: 0,
+        behavior: "smooth"
+
+    });
+
+});
 
 window.addEventListener("scroll", () => {
 
     if (window.scrollY > 300) {
+
         topBtn.style.display = "block";
+
     } else {
+
         topBtn.style.display = "none";
+
     }
-
-});
-
-topBtn.addEventListener("click", () => {
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
 
 });
