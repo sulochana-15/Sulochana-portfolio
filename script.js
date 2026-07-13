@@ -1,11 +1,11 @@
 // ======================================
 // PORTFOLIO JAVASCRIPT
-// Developed by Venkata Sulochana
+// Developed by Venkata Sulochana Korrapati
 // ======================================
 
-// ================================
+// ======================================
 // MOBILE MENU
-// ================================
+// ======================================
 
 const menuBtn = document.getElementById("menu-btn");
 const navLinks = document.querySelector(".nav-links");
@@ -15,27 +15,23 @@ menuBtn.addEventListener("click", () => {
 
     navLinks.classList.toggle("active");
 
-    if(navLinks.classList.contains("active")){
-
+    if (navLinks.classList.contains("active")) {
         menuIcon.classList.remove("fa-bars");
         menuIcon.classList.add("fa-times");
-
-    }else{
-
+    } else {
         menuIcon.classList.remove("fa-times");
         menuIcon.classList.add("fa-bars");
-
     }
 
 });
 
-// ================================
+// ======================================
 // CLOSE MENU AFTER CLICK
-// ================================
+// ======================================
 
-document.querySelectorAll(".nav-links a").forEach(link=>{
+document.querySelectorAll(".nav-links a").forEach(link => {
 
-    link.addEventListener("click",()=>{
+    link.addEventListener("click", () => {
 
         navLinks.classList.remove("active");
 
@@ -46,33 +42,41 @@ document.querySelectorAll(".nav-links a").forEach(link=>{
 
 });
 
-// ================================
+// ======================================
 // SMOOTH SCROLL
-// ================================
+// ======================================
 
-document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
-    anchor.addEventListener("click",function(e){
+    anchor.addEventListener("click", function(e){
 
         e.preventDefault();
 
-        document.querySelector(this.getAttribute("href")).scrollIntoView({
+        const target = document.querySelector(this.getAttribute("href"));
 
-            behavior:"smooth"
+        if(target){
 
-        });
+            target.scrollIntoView({
+
+                behavior:"smooth"
+
+            });
+
+        }
 
     });
 
 });
 
-// ================================
+// ======================================
 // TYPING EFFECT
-// ================================
+// ======================================
 
-const words=[
+const typingText = document.getElementById("typing");
 
-    "Computer Engineering Student",
+const roles = [
+
+    "AI & ML Student",
 
     "Frontend Developer",
 
@@ -80,51 +84,55 @@ const words=[
 
     "Java Programmer",
 
+    "FastAPI Learner",
+
+    "Problem Solver",
+
     "Future Software Engineer"
 
 ];
 
-let wordIndex=0;
-let charIndex=0;
-let deleting=false;
+let roleIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
 
-const typing=document.getElementById("typing");
+function typeEffect(){
 
-function typingEffect(){
+    const currentRole = roles[roleIndex];
 
-    const currentWord=words[wordIndex];
+    if(!isDeleting){
 
-    if(!deleting){
-
-        typing.textContent=currentWord.substring(0,charIndex);
+        typingText.textContent = currentRole.substring(0, charIndex);
 
         charIndex++;
 
-        if(charIndex>currentWord.length){
+        if(charIndex > currentRole.length){
 
-            deleting=true;
+            isDeleting = true;
 
-            setTimeout(typingEffect,1500);
+            setTimeout(typeEffect,1500);
 
             return;
 
         }
 
-    }else{
+    }
 
-        typing.textContent=currentWord.substring(0,charIndex);
+    else{
+
+        typingText.textContent = currentRole.substring(0, charIndex);
 
         charIndex--;
 
-        if(charIndex<0){
+        if(charIndex < 0){
 
-            deleting=false;
+            isDeleting = false;
 
-            wordIndex++;
+            roleIndex++;
 
-            if(wordIndex>=words.length){
+            if(roleIndex >= roles.length){
 
-                wordIndex=0;
+                roleIndex = 0;
 
             }
 
@@ -132,11 +140,11 @@ function typingEffect(){
 
     }
 
-    setTimeout(typingEffect,deleting?50:100);
+    setTimeout(typeEffect, isDeleting ? 50 : 100);
 
 }
 
-typingEffect();
+typeEffect();
 // ======================================
 // ACTIVE NAVIGATION
 // ======================================
@@ -146,18 +154,18 @@ const navItems = document.querySelectorAll(".nav-links a");
 
 window.addEventListener("scroll", () => {
 
-    let current = "";
+    let currentSection = "";
 
     sections.forEach(section => {
 
-        const sectionTop = section.offsetTop - 150;
-        const sectionHeight = section.clientHeight;
+        const sectionTop = section.offsetTop - 180;
+        const sectionHeight = section.offsetHeight;
 
-        if (window.scrollY >= sectionTop &&
-            window.scrollY < sectionTop + sectionHeight) {
-
-            current = section.getAttribute("id");
-
+        if (
+            window.scrollY >= sectionTop &&
+            window.scrollY < sectionTop + sectionHeight
+        ) {
+            currentSection = section.getAttribute("id");
         }
 
     });
@@ -166,10 +174,8 @@ window.addEventListener("scroll", () => {
 
         link.classList.remove("active");
 
-        if (link.getAttribute("href") === "#" + current) {
-
+        if (link.getAttribute("href") === "#" + currentSection) {
             link.classList.add("active");
-
         }
 
     });
@@ -177,7 +183,7 @@ window.addEventListener("scroll", () => {
 });
 
 // ======================================
-// HEADER SHADOW
+// STICKY HEADER SHADOW
 // ======================================
 
 const header = document.querySelector("header");
@@ -187,13 +193,12 @@ window.addEventListener("scroll", () => {
     if (window.scrollY > 50) {
 
         header.style.boxShadow =
-        "0 10px 30px rgba(0,0,0,0.15)";
+            "0 12px 30px rgba(0,0,0,0.15)";
 
     } else {
 
         header.style.boxShadow =
-        "0 5px 15px rgba(0,0,0,0.08)";
-
+            "0 5px 15px rgba(0,0,0,0.08)";
     }
 
 });
@@ -202,25 +207,25 @@ window.addEventListener("scroll", () => {
 // SCROLL REVEAL ANIMATION
 // ======================================
 
-const revealElements = document.querySelectorAll(
-
-    ".card, .project-card, .achievement-card, .skill, .about-box, .contact-box"
-
+const revealItems = document.querySelectorAll(
+    ".card, .skill, .about-box, .contact-box"
 );
 
-function revealAnimation() {
+revealItems.forEach(item => {
+    item.classList.add("fade-up");
+});
 
-    revealElements.forEach(element => {
+function revealOnScroll() {
+
+    revealItems.forEach(item => {
 
         const windowHeight = window.innerHeight;
-
-        const revealTop = element.getBoundingClientRect().top;
-
+        const elementTop = item.getBoundingClientRect().top;
         const revealPoint = 120;
 
-        if (revealTop < windowHeight - revealPoint) {
+        if (elementTop < windowHeight - revealPoint) {
 
-            element.classList.add("show");
+            item.classList.add("show");
 
         }
 
@@ -228,124 +233,26 @@ function revealAnimation() {
 
 }
 
-window.addEventListener("scroll", revealAnimation);
-
-window.addEventListener("load", revealAnimation);
-
-// ======================================
-// FADE-UP EFFECT
-// ======================================
-
-revealElements.forEach(element => {
-
-    element.classList.add("fade-up");
-
-});
+window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("load", revealOnScroll);
 
 // ======================================
-// BUTTON RIPPLE EFFECT
+// HERO IMAGE ANIMATION
 // ======================================
 
-const buttons = document.querySelectorAll(".btn, .btn2");
+const heroImage = document.querySelector(".circle");
 
-buttons.forEach(button => {
+if (heroImage) {
 
-    button.addEventListener("mouseenter", () => {
+    heroImage.addEventListener("mouseenter", () => {
 
-        button.style.transform = "translateY(-5px)";
+        heroImage.style.transform = "scale(1.05) rotate(2deg)";
 
     });
 
-    button.addEventListener("mouseleave", () => {
+    heroImage.addEventListener("mouseleave", () => {
 
-        button.style.transform = "translateY(0px)";
-
-    });
-
-});
-// ======================================
-// BACK TO TOP BUTTON
-// ======================================
-
-const topButton = document.createElement("button");
-
-topButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
-
-topButton.classList.add("top-btn");
-
-document.body.appendChild(topButton);
-
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 400) {
-
-        topButton.style.opacity = "1";
-        topButton.style.visibility = "visible";
-
-    } else {
-
-        topButton.style.opacity = "0";
-        topButton.style.visibility = "hidden";
-
-    }
-
-});
-
-topButton.addEventListener("click", () => {
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
-});
-
-// ======================================
-// SCROLL PROGRESS BAR
-// ======================================
-
-const progressBar = document.createElement("div");
-
-progressBar.classList.add("progress-bar");
-
-document.body.appendChild(progressBar);
-
-window.addEventListener("scroll", () => {
-
-    const scrollTop = document.documentElement.scrollTop;
-
-    const scrollHeight = document.documentElement.scrollHeight -
-
-                         document.documentElement.clientHeight;
-
-    const progress = (scrollTop / scrollHeight) * 100;
-
-    progressBar.style.width = progress + "%";
-
-});
-
-// ======================================
-// PROFILE IMAGE HOVER
-// ======================================
-
-const profileImage = document.querySelector(".profile-img");
-
-if(profileImage){
-
-    profileImage.addEventListener("mouseenter",()=>{
-
-        profileImage.style.transform="scale(1.08)";
-
-        profileImage.style.transition=".4s";
-
-    });
-
-    profileImage.addEventListener("mouseleave",()=>{
-
-        profileImage.style.transform="scale(1)";
+        heroImage.style.transform = "scale(1) rotate(0deg)";
 
     });
 
@@ -355,40 +262,20 @@ if(profileImage){
 // CARD HOVER EFFECT
 // ======================================
 
-const cards=document.querySelectorAll(".card,.project-card,.achievement-card");
+const cards = document.querySelectorAll(".card");
 
-cards.forEach(card=>{
+cards.forEach(card => {
 
-    card.addEventListener("mouseenter",()=>{
+    card.addEventListener("mouseenter", () => {
 
-        card.style.transform="translateY(-12px)";
+        card.style.transform = "translateY(-12px)";
 
     });
 
-    card.addEventListener("mouseleave",()=>{
+    card.addEventListener("mouseleave", () => {
 
-        card.style.transform="translateY(0px)";
+        card.style.transform = "translateY(0px)";
 
     });
 
 });
-
-// ======================================
-// PRELOADER (OPTIONAL)
-// ======================================
-
-window.addEventListener("load",()=>{
-
-    document.body.style.opacity="1";
-
-});
-
-// ======================================
-// CONSOLE MESSAGE
-// ======================================
-
-console.log("%cWelcome to Sulochana's Portfolio 🚀",
-"color:#2563eb;font-size:18px;font-weight:bold;");
-
-console.log("%cDesigned with HTML, CSS & JavaScript",
-"color:#16a34a;font-size:14px;");
