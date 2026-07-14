@@ -279,3 +279,305 @@ cards.forEach(card => {
     });
 
 });
+// ======================================
+// BACK TO TOP BUTTON
+// ======================================
+
+const topButton = document.createElement("button");
+
+topButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+
+topButton.className = "top-btn";
+
+document.body.appendChild(topButton);
+
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 400) {
+
+        topButton.classList.add("show");
+
+    } else {
+
+        topButton.classList.remove("show");
+
+    }
+
+});
+
+topButton.addEventListener("click", () => {
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+});
+
+// ======================================
+// SCROLL PROGRESS BAR
+// ======================================
+
+const progressBar = document.createElement("div");
+
+progressBar.className = "progress-bar";
+
+document.body.appendChild(progressBar);
+
+window.addEventListener("scroll", () => {
+
+    const scrollTop = document.documentElement.scrollTop;
+
+    const scrollHeight =
+    document.documentElement.scrollHeight -
+    document.documentElement.clientHeight;
+
+    const progress =
+    (scrollTop / scrollHeight) * 100;
+
+    progressBar.style.width = progress + "%";
+
+});
+
+// ======================================
+// DARK MODE
+// ======================================
+
+const darkBtn = document.createElement("button");
+
+darkBtn.className = "dark-mode-btn";
+
+darkBtn.innerHTML = '<i class="fas fa-moon"></i>';
+
+document.body.appendChild(darkBtn);
+
+// Load saved theme
+
+if(localStorage.getItem("theme") === "dark"){
+
+    document.body.classList.add("dark-mode");
+
+    darkBtn.innerHTML =
+    '<i class="fas fa-sun"></i>';
+
+}
+
+// Toggle theme
+
+darkBtn.addEventListener("click", () => {
+
+    document.body.classList.toggle("dark-mode");
+
+    if(document.body.classList.contains("dark-mode")){
+
+        localStorage.setItem("theme","dark");
+
+        darkBtn.innerHTML =
+        '<i class="fas fa-sun"></i>';
+
+    }
+
+    else{
+
+        localStorage.setItem("theme","light");
+
+        darkBtn.innerHTML =
+        '<i class="fas fa-moon"></i>';
+
+    }
+
+});
+
+// ======================================
+// BUTTON RIPPLE EFFECT
+// ======================================
+
+const buttons = document.querySelectorAll(".btn,.btn2");
+
+buttons.forEach(button => {
+
+    button.addEventListener("click", function(e){
+
+        const ripple = document.createElement("span");
+
+        const rect = this.getBoundingClientRect();
+
+        const size = Math.max(rect.width, rect.height);
+
+        ripple.style.width = ripple.style.height = size + "px";
+
+        ripple.style.left = (e.clientX - rect.left - size/2) + "px";
+
+        ripple.style.top = (e.clientY - rect.top - size/2) + "px";
+
+        ripple.className = "ripple";
+
+        this.appendChild(ripple);
+
+        setTimeout(() => {
+
+            ripple.remove();
+
+        },600);
+
+    });
+
+});
+
+// ======================================
+// CONSOLE MESSAGE
+// ======================================
+
+console.log("%cWelcome to Sulochana's Portfolio 🚀",
+"color:#2563eb;font-size:18px;font-weight:bold;");
+
+console.log("%cDesigned with ❤️ using HTML, CSS & JavaScript",
+"color:#16a34a;font-size:14px;");
+// ======================================
+// PAGE LOADING ANIMATION
+// ======================================
+
+window.addEventListener("load", () => {
+
+    document.body.style.opacity = "1";
+
+    document.body.style.transition = "opacity .6s ease";
+
+});
+
+// ======================================
+// AUTO UPDATE FOOTER YEAR
+// ======================================
+
+const yearElement = document.querySelector(".copyright");
+
+if (yearElement) {
+
+    const currentYear = new Date().getFullYear();
+
+    yearElement.innerHTML = `
+        © ${currentYear} Venkata Sulochana Korrapati.
+        <br>
+        Designed with ❤️ using HTML, CSS & JavaScript.
+    `;
+
+}
+
+// ======================================
+// HERO SECTION FADE-IN
+// ======================================
+
+const hero = document.querySelector(".hero");
+
+if(hero){
+
+    hero.style.opacity = "0";
+    hero.style.transform = "translateY(30px)";
+
+    window.addEventListener("load", () => {
+
+        setTimeout(() => {
+
+            hero.style.transition = "all .8s ease";
+
+            hero.style.opacity = "1";
+
+            hero.style.transform = "translateY(0)";
+
+        },300);
+
+    });
+
+}
+
+// ======================================
+// KEYBOARD SHORTCUTS
+// ======================================
+
+document.addEventListener("keydown",(e)=>{
+
+    // Home Key → Top
+
+    if(e.key==="Home"){
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+    }
+
+    // End Key → Bottom
+
+    if(e.key==="End"){
+
+        window.scrollTo({
+
+            top:document.body.scrollHeight,
+
+            behavior:"smooth"
+
+        });
+
+    }
+
+});
+
+// ======================================
+// PERFORMANCE OPTIMIZATION
+// ======================================
+
+// Lazy loading for all images
+
+document.querySelectorAll("img").forEach(img=>{
+
+    img.setAttribute("loading","lazy");
+
+});
+
+// ======================================
+// IMAGE FALLBACK
+// ======================================
+
+document.querySelectorAll("img").forEach(img=>{
+
+    img.onerror=function(){
+
+        this.src="https://via.placeholder.com/400x400?text=Profile";
+
+    };
+
+});
+
+// ======================================
+// WELCOME MESSAGE
+// ======================================
+
+setTimeout(()=>{
+
+    console.log(
+        "%c👋 Welcome Recruiter!",
+        "color:#2563eb;font-size:20px;font-weight:bold;"
+    );
+
+    console.log(
+        "%cPortfolio Developed by Venkata Sulochana Korrapati",
+        "color:#16a34a;font-size:15px;"
+    );
+
+},1000);
+
+// ======================================
+// PORTFOLIO READY
+// ======================================
+
+console.log(
+"%c🚀 Portfolio Loaded Successfully!",
+"color:#2563eb;font-size:18px;font-weight:bold;"
+);
